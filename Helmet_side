@@ -1,0 +1,67 @@
+int alcdata = 7;
+int alcgnd = 8;
+int ultravcc = 6;
+int ultragnd =5;
+int trig = 4;
+int echo= 3;
+int vibdata = 9;
+int vibvcc = 11;
+int vibgnd = 10;
+//int transmitvibdata = 1;
+//int transmitvibvcc = 0;
+//int transmitvibgnd = 2;
+int transmitdata = 13;
+int transmitvcc = 12;
+
+
+void setup() {
+ 
+ // put your setup code here, to run once:
+pinMode(alcdata , INPUT);
+pinMode(alcgnd , OUTPUT);
+pinMode(trig , OUTPUT);
+pinMode(echo , INPUT);
+pinMode(ultravcc , OUTPUT);
+pinMode(ultragnd , OUTPUT);
+pinMode(vibdata , INPUT);
+pinMode(vibvcc , OUTPUT);
+pinMode(vibgnd ,OUTPUT);
+pinMode(transmitdata , OUTPUT);
+pinMode(transmitvcc , OUTPUT);
+//pinMode(transmitvibgnd , OUTPUT);
+//pinMode(transmitignition , OUTPUT);
+//pinMode(transmitignitionvcc , OUTPUT);
+}
+
+void loop() {
+  int distance , duration;
+  // put your main code here, to run repeatedly:
+digitalWrite(alcgnd,LOW);
+digitalWrite(ultravcc,HIGH);
+digitalWrite(ultragnd,LOW);
+digitalWrite(vibvcc,HIGH);
+digitalWrite(vibgnd,LOW);
+//digitalWrite(transmitvibgnd,LOW);
+digitalWrite(transmitvcc,HIGH);
+//digitalWrite(transmitignitionvcc,HIGH);
+digitalWrite(trig,LOW);
+delayMicroseconds(2);
+digitalWrite(trig,HIGH);
+delayMicroseconds(10);
+digitalWrite(trig,LOW);
+duration = pulseIn(echo , HIGH);
+distance = (duration / 2)/79;
+int checkalc = digitalRead(alcdata);
+int checkvib = digitalRead(vibdata);
+if((checkalc == LOW)&&(checkvib == HIGH)&&(distance <= 2))
+{
+  digitalWrite(transmitdata , HIGH);
+  delay(5000);
+}
+else
+{
+  digitalWrite(transmitdata , LOW);
+}
+}
+
+
